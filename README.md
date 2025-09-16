@@ -1,42 +1,72 @@
-google_address_with_autocomplete
-A Flutter package that provides a customizable TextField with Google Places Autocomplete integration. Users can input an address, see suggestions, and retrieve the selected address's primary text, latitude, and longitude. The package uses the http package for API calls and requires a Google API key. Includes robust error handling for API issues.
-Features
 
-Customizable TextField with options for hint, style, and validation.
-Google Places Autocomplete for address suggestions.
-Returns formatted address, latitude, and longitude on selection.
-Debounced search to optimize API calls.
-Customizable loading indicator.
-Fully customizable suggestion list items via suggestionItemBuilder.
-Error handling with onError callback and optional UI display for errors (e.g., invalid API key, quota exceeded).
-Support for displaying full description or structured formatting in suggestions.
-Lightweight with minimal dependencies.
+# google_address_with_autocomplete
 
-Screenshots
-https://asset.cloudinary.com/ducx7nije/5ef7bd5d4ee1a8c424e2c63569f32473
-Screenshot of the autocomplete widget in action, showing address suggestions.
-Installation
-Add the package to your pubspec.yaml:
+A **Flutter package** that provides a customizable `TextField` with **Google Places Autocomplete** integration.  
+Users can input an address, see suggestions, and retrieve the selected address's **formatted address**, **latitude**, and **longitude**.  
+
+The package uses the [`http`](https://pub.dev/packages/http) package for API calls and requires a **Google API Key**.  
+Includes robust error handling for API issues.
+
+---
+
+## ✨ Features
+- Customizable `TextField` with options for hint, style, and validation.
+- Google Places Autocomplete for address suggestions.
+- Returns formatted address, latitude, and longitude on selection.
+- Debounced search to optimize API calls.
+- Customizable loading indicator.
+- Fully customizable suggestion list items via `suggestionItemBuilder`.
+- Error handling with `onError` callback and optional UI display for errors  
+  *(e.g., invalid API key, quota exceeded)*.
+- Support for displaying full description or structured formatting in suggestions.
+- Lightweight with minimal dependencies.
+
+---
+
+## 📸 Screenshots
+![Autocomplete Example](https://asset.cloudinary.com/ducx7nije/5ef7bd5d4ee1a8c424e2c63569f32473)  
+*Screenshot of the autocomplete widget in action, showing address suggestions.*
+
+---
+
+## ⚙️ Installation
+Add the package to your **`pubspec.yaml`**:
+```yaml
 dependencies:
   google_address_with_autocomplete: ^0.1.0
+````
 
-Run flutter pub get to install.
-Setup
+Run:
 
-Get a Google API Key:
+```bash
+flutter pub get
+```
 
-Enable the Google Places API in your Google Cloud Console.
-Ensure billing is enabled (required for Places API).
+---
 
+## 🔑 Setup
 
-Add the API Key:Pass your Google API key to the widget.
+1. Get a **Google API Key**:
 
+   * Enable the **Google Places API** in your [Google Cloud Console](https://console.cloud.google.com/).
+   * Ensure **billing is enabled** (required for Places API).
 
-Usage
+2. Add the API Key:
+   Pass your API key to the widget.
+
+---
+
+## 🚀 Usage
+
 Import the package:
-import 'package:google_address_with_autocomplete/google_address_with_autocomplete.dart';
 
-Use the GoogleAddressAutocomplete widget in your app:
+```dart
+import 'package:google_address_with_autocomplete/google_address_with_autocomplete.dart';
+```
+
+Use the widget in your app:
+
+```dart
 GoogleAddressAutocomplete(
   apiKey: 'YOUR_GOOGLE_API_KEY',
   hintText: 'Enter location',
@@ -51,23 +81,32 @@ GoogleAddressAutocomplete(
     );
   },
 ),
+```
 
-Parameters
+---
 
-apiKey: Your Google Places API key (required).
-hintText: Placeholder text for the TextField (optional).
-textStyle: Style for the TextField text (optional).
-hintStyle: Style for the hint text (optional).
-inputDecoration: Custom decoration for the TextField (optional).
-loadingWidget: Custom loading widget (optional; defaults to a styled CircularProgressIndicator).
-suggestionsHeight: Height of the suggestions list (optional; default: 150.0).
-suggestionItemBuilder: Custom builder for suggestion items (optional; receives context, prediction, and onTap callback).
-useDescription: Whether to display the full description in suggestions (optional; default: false).
-onAddressSelected: Callback returning AddressDetails with formatted address, lat, and lng (optional).
-onError: Callback for handling errors (receives context and error message; optional).
-showErrorInUI: Whether to display errors below the TextField (optional; default: true).
+## 🔧 Parameters
 
-Example
+| Parameter               | Type              | Description                                                                   | Default                     |
+| ----------------------- | ----------------- | ----------------------------------------------------------------------------- | --------------------------- |
+| `apiKey`                | `String`          | Your **Google Places API key** *(required)*                                   | —                           |
+| `hintText`              | `String`          | Placeholder text for the `TextField`                                          | —                           |
+| `textStyle`             | `TextStyle`       | Style for the `TextField` text                                                | —                           |
+| `hintStyle`             | `TextStyle`       | Style for the hint text                                                       | —                           |
+| `inputDecoration`       | `InputDecoration` | Custom decoration for the `TextField`                                         | —                           |
+| `loadingWidget`         | `Widget`          | Custom loading widget                                                         | `CircularProgressIndicator` |
+| `suggestionsHeight`     | `double`          | Height of the suggestions list                                                | `150.0`                     |
+| `suggestionItemBuilder` | `Widget Function` | Custom builder for suggestion items (receives context, prediction, and onTap) | —                           |
+| `useDescription`        | `bool`            | Display full description in suggestions                                       | `false`                     |
+| `onAddressSelected`     | `Function`        | Callback returning address details *(formattedAddress, lat, lng)*             | —                           |
+| `onError`               | `Function`        | Callback for handling errors *(receives context and error message)*           | —                           |
+| `showErrorInUI`         | `bool`            | Whether to display errors below the `TextField`                               | `true`                      |
+
+---
+
+## 📖 Example
+
+```dart
 import 'package:flutter/material.dart';
 import 'package:google_address_with_autocomplete/google_address_with_autocomplete.dart';
 
@@ -95,7 +134,9 @@ class MyApp extends StatelessWidget {
                 return ListTile(
                   leading: const Icon(Icons.location_on),
                   title: Text(prediction.description ?? ''),
-                  subtitle: Text(prediction.structuredFormatting?.secondaryText ?? ''),
+                  subtitle: Text(
+                    prediction.structuredFormatting?.secondaryText ?? '',
+                  ),
                   onTap: onTap,
                 );
               },
@@ -116,22 +157,40 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+```
 
-Error Handling
+---
 
-The package handles HTTP errors, Google API status codes (e.g., REQUEST_DENIED, OVER_QUERY_LIMIT), and network issues.
-Use onError to customize error responses (e.g., show SnackBar or dialog).
-Set showErrorInUI: false to disable inline error messages and rely on onError.
+## ⚠️ Error Handling
 
-Notes
+* Handles:
 
-Ensure your Google API key has the Places API enabled and billing set up.
-The package uses debouncing (500ms) to reduce API calls during typing.
-Customize the TextField appearance using textStyle, hintStyle, or inputDecoration.
-For custom suggestion items, use suggestionItemBuilder to access PredictionGoogle fields like description, mainText, secondaryText, or types.
-When useDescription: true, the full address description is shown in suggestions and set in the TextField on selection.
+  * HTTP errors
+  * Google API status codes (`REQUEST_DENIED`, `OVER_QUERY_LIMIT`, etc.)
+  * Network issues
+* Use `onError` to customize error responses (e.g., show `SnackBar` or dialog).
+* Set `showErrorInUI: false` to disable inline error messages and rely only on `onError`.
 
-Contributing
-Contributions are welcome! Please submit issues or pull requests to the GitHub repository.
-License
-MIT License
+---
+
+## 📝 Notes
+
+* Ensure your API key has **Places API enabled** and **billing set up**.
+* The widget uses **debouncing (500ms)** to reduce API calls while typing.
+* Customize `TextField` appearance with `textStyle`, `hintStyle`, or `inputDecoration`.
+* Use `suggestionItemBuilder` to fully customize suggestions (e.g., icons, colors).
+* When `useDescription: true`, the full address description is shown in suggestions.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!
+Please submit **issues** or **pull requests** to the GitHub repository.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+
