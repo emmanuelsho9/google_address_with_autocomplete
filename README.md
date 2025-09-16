@@ -33,7 +33,7 @@ Includes robust error handling for API issues.
 Add the package to your **`pubspec.yaml`**:
 ```yaml
 dependencies:
-  google_address_with_autocomplete: ^0.1.0
+  google_address_with_autocomplete: ^0.0.1
 ````
 
 Run:
